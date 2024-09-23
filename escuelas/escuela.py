@@ -39,3 +39,19 @@ class Escuela:
       
       numero_control = f"M{ano}{dia}{aleatorio}{letras_inicio}{letras_final}{longitud_mas_uno}"
       return numero_control
+
+#numero control con el 
+    # siguiente formato: 
+    # "MT{ultimos 2 digitos del nombre}{semestre}{cantidad creditos}{random 1, 1000}"
+   def registrar_materia(self,materia_registro: Materia):
+      self.lista_materias.append(materia_registro)
+
+   def generar_numero_control_materia(self, nombre: str, semestre: int, creditos: int):
+      letras_final = nombre[:-2]
+      semestre= semestre
+      creditos = creditos
+      aleatorio = randint(1,1000)
+      numero_control = f"MT{letras_final}{semestre}{creditos}{aleatorio}"
+      return numero_control
+
+      

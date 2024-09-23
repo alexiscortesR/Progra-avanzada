@@ -1,8 +1,9 @@
 from escuelas.escuela import Escuela
 from estudiantes.estudiante import Estudiante
 from maestros.maestro import Maestro
-from datetime import datetime
+from materias.materia import Materia
 
+from datetime import datetime
 escuela = Escuela()
 
 while True:
@@ -48,15 +49,21 @@ while True:
         escuela.registrar_maestro(maestro_regis=maestro)
         
         
-        
-        
-
-        
-    
     elif opcion == "3":
         pass
     elif opcion == "4":
-        pass
+        print("\nSeleccionaste la opcion para registrar una materia")
+        nombre= input("Ingresa nombre de la materia: ")
+        descripcion = input("Ingresa una pequeña descripcion: ")
+        semestre = int(input("Ingresa numero de semestre: "))
+        creditos = int(input("Ingresa la cantidad de creditos: "))
+        numero_control= escuela.generar_numero_control_materia(nombre = nombre, semestre=semestre, creditos=creditos)
+        print("Numero de control de la materia: ", numero_control)
+
+        materia = Materia(numero_control=numero_control, nombre=nombre, descripcion=descripcion, semestre = semestre, creditos = creditos)
+        
+        escuela.registrar_materia(materia_registro=materia)
+
     elif opcion == "5":
         pass
     elif opcion == "6":
