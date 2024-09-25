@@ -54,4 +54,42 @@ class Escuela:
       numero_control = f"MT{letras_final}{semestre}{creditos}{aleatorio}"
       return numero_control
 
-      
+###########################33
+   def listar_estudiantes(self):
+        print("\n---ESTUDIANTES---\n")
+        for estudiante in self.lista_estudiantes:
+            print(estudiante.mostrar_infomacion_estudiante()) 
+
+   def listar_maestros(self):
+        print("\n---MAESTROS---\n")
+        for maestro in self.lista_maestros:
+            print(maestro.mostrar_informacion_maestro())  
+
+   def listar_materias(self):
+        print("\n---MATERIAS---\n")
+        for materia in self.lista_materias:
+            print(materia.mostrar_informacion_materia())
+######################33
+   def eliminar_estudiante(self, numero_control: str):
+        for estudiante in self.lista_estudiantes:
+            if numero_control==estudiante.numero_control:
+               self.lista_estudiantes.remove(estudiante)
+               print("\nEstudiante eliminado con el numero de control que ingresaste")
+               return
+        print("\nNo se encontró estudiante")
+
+   def eliminar_maestro(self, numero_control_maestro):
+        for maestro in self.lista_maestros:
+            if numero_control_maestro==maestro.numero_control:
+               self.lista_maestros.remove(maestro)
+               print("\nMaestro eliminado con el numero de control que ingresaste")
+               return
+        print("\nNo se encontró Maestro")
+
+   def eliminar_materia(self, id_materia):
+        for materia in self.lista_materias:
+            if id_materia==materia.numero_control:
+               self.lista_materias.remove(materia)
+               print("\nMateria eliminada con el id que ingresaste")
+               return
+        print("\nNo se encontró la materia")
