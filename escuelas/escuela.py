@@ -5,13 +5,17 @@ from maestros.maestro import Maestro
 from materias.materia import Materia
 from datetime import datetime
 from random import randint
+from carrera.carrera import Carrera
+from semestre.semestre import Semestre
 
 class Escuela:
    lista_estudiantes: List[Estudiante] = []
    lista_grupos: List[Grupo] = []
    lista_maestros: List[Maestro] = []
    lista_materias: List[Materia] = []
-   
+   lista_carreras: List[Carrera] = []
+   lista_semestres: List[Semestre] = []
+
    def registrar_estudiante(self, estudiante_regis: Estudiante):
       self.lista_estudiantes.append(estudiante_regis)
        
@@ -54,11 +58,38 @@ class Escuela:
       numero_control = f"MT{letras_final}{semestre}{creditos}{aleatorio}"
       return numero_control
 
+   def registrar_carrera(self, carrera: Carrera):
+      self.lista_carreras.append(carrera)
+
+   def registrar_semestre(self, semestre: Semestre):
+      id_carrera = semestre.id
+
+      for carrera in self.lista_carreras:
+         if carrera.matricula == id_carrera:
+            carrera.registrar_semestre(semestre=semestre)
+            self.lista_semestres.append(semestre)
+            break
+          
+      
+      self.lista_semestres.append(semestre)
+
+   def registrar_grupo(self, grupo : Grupo ):
+      id_semestre = grupo.id_semestre
+
+      for semestre in self.lista_semestres:
+         if id_semestre == semestre.id:
+            semestre.registrar_grupo_en_semestre(grupo=grupo)
+            self.lista_grupos.append()
+            break
+
+      self.lista_grupos.append(grupo)
+
+
 ###########################33
    def listar_estudiantes(self):
         print("\n---ESTUDIANTES---\n")
         for estudiante in self.lista_estudiantes:
-            print(estudiante.mostrar_infomacion_estudiante()) 
+            print(estudiante.mostrar_informacion_estudiante()) 
 
    def listar_maestros(self):
         print("\n---MAESTROS---\n")
@@ -70,6 +101,29 @@ class Escuela:
         for materia in self.lista_materias:
             print(materia.mostrar_informacion_materia())
 ######################33
+
+   def listar_grupos(self):
+        print("\n---GRUPOS---\n")
+        i=0
+        for grupo in self.lista_grupos:
+            
+            i+=1
+            print("Grupo ", i) ##############################GRUPO
+            print(grupo.mostrar_infomacion_grupo()) 
+
+
+   def listar_semestres(self):
+        print("\n---SEMESTRES---\n")
+        for semestre in self.lista_semestres:
+            print(semestre.mostrar_infomacion_semestre())
+
+
+   def listar_carreras(self):
+        print("\n---CARRERAS---\n")
+        for carrera in self.lista_carreras:
+            print(carrera.mostrar_infomacion_carrera())
+
+
    def eliminar_estudiante(self, numero_control: str):
         for estudiante in self.lista_estudiantes:
             if numero_control==estudiante.numero_control:
