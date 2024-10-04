@@ -16,6 +16,7 @@ class Grupo:
         self.id= self.generar_id(tipo = tipo)
         self.tipo = tipo
         self.id_semestre= id_semestre
+        
     def generar_id (self, tipo: chr )->str: 
         return f"{tipo}-{randint(0,100000)}-{randint(0,100000)}"
 

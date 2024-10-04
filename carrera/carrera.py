@@ -9,6 +9,8 @@ class Carrera:
     nombre: str
     numero_semestre: int =0
     semestres: List[Semestre] = []
+    materias: List[Materia]=[]
+    estudiantes: List[Estudiante]=[]
 
 
     def __init__(self, nombre: str):

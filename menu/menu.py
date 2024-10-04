@@ -35,9 +35,9 @@ class Menu:
                     intentos = 0
                 else:
                     print("Nombre o contraseña incorrectos")
-                    print("\nError, intento numero ", intentos+1)
-                    intentos+=1
-                    #self.contador_intentos()
+                    # print("\nError, intento numero ", intentos+1)
+                    # intentos+=1
+                    intentos=self.contador_intentos(intentos_def=intentos)
                     
             elif nombre_usuario == self.usuario_maestro:
                 if contraseña_usuario == self.contraseña_maestro:
@@ -45,13 +45,13 @@ class Menu:
                     intentos = 0
                 else:
                     print("Nombre o contraseña incorrectos")
-                    print("\nError, intento numero ", intentos+1)
-                    intentos+=1
-                    #self.contador_intentos()
+                    # print("\nError, intento numero ", intentos+1)
+                    # intentos+=1
+                    intentos=self.contador_intentos(intentos_def=intentos)
             else: 
-                print("\nError, intento numero ", intentos+1)
-                intentos+=1
-                #self.contador_intentos(intentos)
+                # print("\nError, intento numero ", intentos+1)
+                # intentos+=1
+                intentos=self.contador_intentos(intentos_def=intentos)
                  
         print("Intentos máximos alcanzados, bye.")
         
@@ -70,12 +70,22 @@ class Menu:
             
     def mostrar_menu_maestro(self):
         print("Menú Maestro")
-
+        opcion = 0
+        while opcion != 4:
+            print("""------TEC DE MORELIA------
+                1. Ver carreras.
+                2. Ver grupos
+                3. Ver alumnos
+                4. Salir""")
+            opcion = input("Ingresa una opción: ")
+            
+            if opcion == "4":
+                break
 #--------------------------------------------------------------------------------------------
-    # def contador_intentos(self):
+    def contador_intentos(self,intentos_def:int):
     #     intentos+=1
-    #     print("\nError, intento numero ", intentos)
-    #     return intentos
+        print("\nError, intento numero ", intentos_def+1)
+        return intentos_def+1
 
 #---------------------------------------------------------------------------------------------------
         
