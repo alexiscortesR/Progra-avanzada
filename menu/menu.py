@@ -6,16 +6,11 @@ from carrera.carrera import Carrera
 from semestre.semestre import Semestre
 from grupos.grupo import Grupo
 from datetime import datetime
+from usuario.utils.roles import Roles
 
 class Menu:
     
     escuela: Escuela = Escuela()
-    
-    usuario_estudiante: str = "ZZZ"
-    contraseña_estudiante: str = "1234"
-    
-    usuario_maestro: str = "GuizarBB"
-    contraseña_maestro: str = "12345"
     
     def login(self):
         intentos = 0
@@ -26,60 +21,58 @@ class Menu:
                 Inicia sesión para continuar
                 """)
             
-            nombre_usuario = input("Ingresa tu nombre de usuario: ")
+            numero_control = input("Ingresa tu numero de control: ")
             contraseña_usuario = input("Ingresa tu contraseña: ")
             
-            if nombre_usuario == self.usuario_estudiante:
-                if contraseña_usuario == self.contraseña_estudiante:
-                    self.mostrar_menu_estudiante()
+            usuario = self.escuela.validar_inicio_sesion(numero_control=numero_control, contraseña=contraseña_usuario)
+
+            if usuario is None:
+                intentos = self.contador_intentos(intentos_def=intentos)
+            else:
+                if usuario.rol == Roles.ESTUDIANTE:
+                    self.mostrar_menu_estudiante(numero_control=numero_control,contraseña=contraseña_usuario)
+                    intentos = 0
+                elif usuario.rol == Roles.MAESTRO:
+                    self.mostrar_menu_maestro(numero_control=numero_control,contraseña=contraseña_usuario)
                     intentos = 0
                 else:
-                    print("Nombre o contraseña incorrectos")
-                    # print("\nError, intento numero ", intentos+1)
-                    # intentos+=1
-                    intentos=self.contador_intentos(intentos_def=intentos)
-                    
-            elif nombre_usuario == self.usuario_maestro:
-                if contraseña_usuario == self.contraseña_maestro:
-                    self.mostrar_menu_maestro()
+                    self.mostrar_menu()
                     intentos = 0
-                else:
-                    print("Nombre o contraseña incorrectos")
-                    # print("\nError, intento numero ", intentos+1)
-                    # intentos+=1
-                    intentos=self.contador_intentos(intentos_def=intentos)
-            else: 
-                # print("\nError, intento numero ", intentos+1)
-                # intentos+=1
-                intentos=self.contador_intentos(intentos_def=intentos)
-                 
-        print("Intentos máximos alcanzados, bye.")
+        print("Máximos intentos de inicio de sesión alcanzados. Adiós")
+
         
-    def mostrar_menu_estudiante(self):
+    def mostrar_menu_estudiante(self,numero_control:str,contraseña:str):
         opcion = 0
-        while opcion != 3:
+        while opcion != 4:
             print("""------TEC DE MORELIA------
                 1. Ver horarios.
                 2. Ver grupos
-                3. Salir""")
+                3. Ver mis datos
+                4. Salir""")
             opcion = input("Ingresa una opción: ")
             
-            if opcion == "3":
+            if opcion =="3":
+                self.escuela.Mis_datos(numero_control=numero_control,contraseña=contraseña)
+            if opcion == "4":
                 break
             
             
-    def mostrar_menu_maestro(self):
+    def mostrar_menu_maestro(self,numero_control:str, contraseña:str):
         print("Menú Maestro")
         opcion = 0
-        while opcion != 4:
+        while opcion != 5:
             print("""------TEC DE MORELIA------
                 1. Ver carreras.
                 2. Ver grupos
                 3. Ver alumnos
-                4. Salir""")
+                4. Ver mis datos
+                5. Salir""")
             opcion = input("Ingresa una opción: ")
             
             if opcion == "4":
+                self.escuela.Mis_datos_maestros(numero_control=numero_control,contraseña=contraseña)
+
+            if opcion == "5":
                 break
 #--------------------------------------------------------------------------------------------
     def contador_intentos(self,intentos_def:int):
@@ -127,8 +120,8 @@ class Menu:
                     mes = int(input("Ingresa el mes de nacimiento del estudiante: "))
                     dia = int(input("Ingresa el dia de nacimiento del estudiante: "))
                     fecha_nacimieto = datetime(ano, mes, dia)
-                    
-                    estudiante = Estudiante(numero_control=numero_control, nombre=nombre, apellido=apellido, curp=curp, fecha_nacimiento=fecha_nacimieto)
+                    contraseña = input("ingresa contraseña: ")
+                    estudiante = Estudiante(numero_control=numero_control, nombre=nombre, apellido=apellido, curp=curp, fecha_nacimiento=fecha_nacimieto, contraseña=contraseña)
                     self.escuela.registrar_estudiante(estudiante_regis=estudiante)
                     
                 elif opcion == "2":
@@ -138,10 +131,10 @@ class Menu:
                     rfc = input("Ingresa la rfc del maestro: ")
                     sueldo = float(input("Ingresa el sueldo del maestro: "))
                     ano_nacimiento = int(input("Ingresa el año de nacimiento del maestro: "))
-                    numero_control = self.self.escuela.generar_numero_control_maestros(año=ano_nacimiento, nombre=nombre, rfc=rfc)
+                    numero_control = self.escuela.generar_numero_control_maestros(año=ano_nacimiento, nombre=nombre, rfc=rfc)
                     print("Numero de control: ", numero_control) 
-                    
-                    maestro = Maestro(numero_control=numero_control, nombre=nombre, apellido=apellido, rfc=rfc, sueldo=sueldo)
+                    contraseña= input("ingresa contraseña: ")
+                    maestro = Maestro(numero_control=numero_control, nombre=nombre, apellido=apellido, rfc=rfc, sueldo=sueldo, contraseña=contraseña)
                     self.escuela.registrar_maestro(maestro_regis=maestro)
                     
                     

@@ -2,13 +2,17 @@ from typing import List
 from estudiantes.estudiante import Estudiante
 from grupos.grupo import Grupo
 from maestros.maestro import Maestro
+from coordinador.coordinador import Coordinador
+from usuario.ususario import Usuario
 from materias.materia import Materia
-from datetime import datetime
-from random import randint
 from carrera.carrera import Carrera
 from semestre.semestre import Semestre
+from datetime import datetime
+from random import randint
+
 
 class Escuela:
+   lista_usuarios:List[Usuario] = []
    lista_estudiantes: List[Estudiante] = []
    lista_grupos: List[Grupo] = []
    lista_maestros: List[Maestro] = []
@@ -16,8 +20,25 @@ class Escuela:
    lista_carreras: List[Carrera] = []
    lista_semestres: List[Semestre] = []
 
+   #---------------------------------------------------
+   def __init__(self):
+       coordinador=Coordinador(
+           numero_control="12345",
+           nombre="Edson",
+            apellido="Medina",
+            rfc="MEDINA123",
+            sueldo=100000,
+            años_antiguedad=10,
+            contraseña="123*",
+       )
+       self.lista_usuarios.append(coordinador)
+
+   #---------------------------------------------------
+
    def registrar_estudiante(self, estudiante_regis: Estudiante):
       self.lista_estudiantes.append(estudiante_regis)
+      self.lista_usuarios.append(estudiante_regis)
+
        
    def generar_numero_control(self):
        #L - 2024 - 09 - longitud +1 - random 0-10000
@@ -32,7 +53,8 @@ class Escuela:
    
    def registrar_maestro(self, maestro_regis: Maestro):
       self.lista_maestros.append(maestro_regis)
-   
+      self.lista_usuarios.append(maestro_regis)
+
    def generar_numero_control_maestros(self, año: int, nombre: str, rfc: str):
       ano = año
       dia = datetime.now().day
@@ -44,6 +66,24 @@ class Escuela:
       numero_control = f"M{ano}{dia}{aleatorio}{letras_inicio}{letras_final}{longitud_mas_uno}"
       return numero_control
 
+#--------------------------------------------------------------------------------------------------------------------
+   def validar_inicio_sesion(self, numero_control:str, contraseña:str):
+      for usuario in self.lista_usuarios:
+         if usuario.numero_control==numero_control:
+             if usuario.contraseña==contraseña:
+                 return usuario
+      return None
+
+#09/10
+      # def validar_inicio_sesion(self, numero_control: str, contrasenia: str):
+      #   for usuario in self.lista_usuarios:
+      #       if usuario.numero_control == numero_control:
+      #           if usuario.contrasenia == contrasenia:
+      #               return usuario
+                
+      #   return None
+
+#--------------------------------------------------------------------------------------------------------------------
 #numero control con el 
     # siguiente formato: 
     # "MT{ultimos 2 digitos del nombre}{semestre}{cantidad creditos}{random 1, 1000}"
@@ -89,6 +129,8 @@ class Escuela:
    def listar_estudiantes(self):
         print("\n---ESTUDIANTES---\n")
         for estudiante in self.lista_estudiantes:
+            #if contraseña== contraaseña:
+               #print(estudiante.mostrar_informacion_estudiante()))
             print(estudiante.mostrar_informacion_estudiante()) 
 
    def listar_maestros(self):
@@ -126,7 +168,7 @@ class Escuela:
 
    def eliminar_estudiante(self, numero_control: str):
         for estudiante in self.lista_estudiantes:
-            if numero_control==estudiante.numero_control:
+            if estudiante.numero_control==numero_control:
                self.lista_estudiantes.remove(estudiante)
                print("\nEstudiante eliminado con el numero de control que ingresaste")
                return
@@ -147,3 +189,33 @@ class Escuela:
                print("\nMateria eliminada con el id que ingresaste")
                return
         print("\nNo se encontró la materia")
+   
+   def Mis_datos(self,numero_control:str,contraseña:str):
+       for estudiante in self.lista_estudiantes:
+            if numero_control==estudiante.numero_control:
+               if contraseña==estudiante.contraseña:
+                  print("\nMis datos:")
+                  print(estudiante.mostrar_informacion_estudiante(),"\n")
+         
+   def Mis_datos_maestros(self,numero_control:str,contraseña:str):
+       for maestro in self.lista_maestros:
+            if numero_control==maestro.numero_control:
+               if contraseña==maestro.contraseña:
+                  print("\nMis datos:")
+                  print(maestro.mostrar_info_maestro(),"\n")
+
+
+
+    #---------------------------------------------------
+   # def __init__(self):
+   #     estudiante=Estudiante(
+   #         numero_control="000",
+   #         nombre="Ian",
+   #          apellido="cortes",
+   #          curp="CORI01",
+   #          fecha_nacimiento=2004,
+   #          contraseña="messi",
+   #     )
+   #     self.lista_usuarios.append(estudiante)
+
+   #---------------------------------------------------

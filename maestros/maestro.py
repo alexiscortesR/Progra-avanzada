@@ -16,7 +16,7 @@ class Maestro(Usuario): #estudiante clase hija de clase padre, usuario
     #     self.sueldo = sueldo
 
     def __init__(self, numero_control, nombre: str, apellido: str, rfc: str, sueldo: float, contraseña: str):
-        super().__init__(numero_de_control=numero_control, 
+        super().__init__(nuemro_de_control=numero_control, 
                          nombre=nombre, 
                          apellido=apellido, 
                          contraseña=contraseña, 
@@ -27,5 +27,5 @@ class Maestro(Usuario): #estudiante clase hija de clase padre, usuario
 
     def mostrar_info_maestro(self):
         nombre_completo=f"{self.nombre} {self.apellido}"
-        informacion = f"-Numero de control: {self.numero_control}, Nombre completo: {nombre_completo}, RFC: {self.rfc}, Sueldo: {self.sueldo}"
+        informacion = f"-Numero de control: {self.numero_control}, \nNombre completo: {nombre_completo}, \nRFC: {self.rfc}, \nSueldo: {self.sueldo}, \nRol: {Roles.MAESTRO}"
         return informacion 
